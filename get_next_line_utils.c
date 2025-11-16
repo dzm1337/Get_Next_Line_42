@@ -6,28 +6,18 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:25:29 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/16 01:59:08 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/16 19:31:05 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_putchar(int c)
+static void	ft_putchar(int c)
 {
 	write(1, &c, 1);
 }
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-	
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-size_t	ft_strlcpy(const char *s, char *d, size_t size)
+static size_t	ft_strlcpy(const char *s, char *d, size_t size)
 {
 	size_t	i;
 	
@@ -46,24 +36,16 @@ size_t	ft_strlcpy(const char *s, char *d, size_t size)
 	return (ft_strlen(s));
 }
 
-char	*ft_substr(const char *s1, unsigned int start, size_t len)
+size_t	ft_strlen(const char *s)
 {
-	char	*sub_str;
-	size_t	s1_len;
+	size_t	i;
 	
-	s1_len = ft_strlen(s1);
-	if (!s1)
-		return (NULL);
-	if (start >= s1_len)
-		return (NULL);
-	if (len > s1_len - start)
-		len = ft_strlen(s1) - start;
-	sub_str = malloc(sizeof(char) * len + 1);
-	if (!sub_str)
-		return (NULL);
-	ft_strlcpy(s1 + start, sub_str, len + 1);
-	return (sub_str);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }
+
 
 char	*ft_strjoin(const char *s1, const char *s2)
 {
@@ -114,9 +96,10 @@ char	*ft_strdup(const char *s)
 	ret[i] = '\0';
 	return (ret);
 }
-
+/*
 #include <stdio.h>
 int	main(void)
 {
 	printf("%s", ft_strdup("diogo marcelo de paulo triles" ));
 }
+*/
