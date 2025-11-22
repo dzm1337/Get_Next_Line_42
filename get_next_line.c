@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/22 15:32:44 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/22 19:49:21 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,14 @@ char	*ft_read_line(char *stash, int fd)
 
 	if (!stash)
 		stash = ft_strdup("");
-	while (!ft_strchr(stash, '\n'))
+	nbytes = 1;
+	while (!ft_strchr(stash, '\n') && nbytes > 0)
 	{
-		nbytes = read(fd, buf, BUFFER_SIZE);
-		if (nbytes <= -1)
-		{
-			if (nbytes <= -1 || *stash == 0 || !stash)
-				return (free(stash), NULL);
-			return (stash);
-		}
+		nbytes = read(fd, buf, BUFFER_SIZE);	
+		if (nbytes == -1)
+			return (free(stash), NULL);
+		if (nbytes == 0)
+			break;
 		buf[nbytes] = '\0';
 		tmp = ft_strjoin(stash, buf);
 		if (!tmp)
@@ -43,17 +42,23 @@ char	*ft_read_line(char *stash, int fd)
 char	*ft_get_line(char *stash)
 {
 	int	i;
-	int	j;
 	char	*line;
-	
+	char 	c;
+
+	if (!stash || !stash[0])
+		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
 		i++;
+	c = stash[i];
+	stash[i] = '\0';
 	line = ft_strdup(stash);
-	return (free(stash), line);
+	stash[i] = c;
+	return (line);
 }
+
 char	*ft_delimit_line(char *stash)
 {
 	int	i;
@@ -63,12 +68,15 @@ char	*ft_delimit_line(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
+	{	
+		free(stash);
 		return (NULL);
-	i++;
-	tmp_stash = ft_strdup(stash + i);
+	}
+	tmp_stash = ft_strdup(stash + i + 1);
+	free(stash);
 	if (!tmp_stash)
 		return (NULL);
-	return (free(stash), tmp_stash);
+	return (tmp_stash);
 }
 
 char	*get_next_line(int fd)
@@ -76,11 +84,12 @@ char	*get_next_line(int fd)
 	static char *stash;
 	char	*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);	
 	stash = ft_read_line(stash, fd);
-	if (!stash || stash[0] == '\0' || fd < 0 || BUFFER_SIZE <= 0)
+	if (!stash)
 		return (NULL);
 	line = ft_get_line(stash);
 	stash = ft_delimit_line(stash);
-
 	return (line);
 }
