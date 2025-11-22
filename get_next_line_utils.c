@@ -6,16 +6,11 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:25:29 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/22 14:02:28 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:33:54 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static void	ft_putchar(int c)
-{
-	write(1, &c, 1);
-}
 
 static size_t	ft_strlcpy(const char *s, char *d, size_t size)
 {
@@ -87,7 +82,7 @@ char	*ft_strdup(const char *s)
 	char	*ret;
 	
 	if (!s)
-		return (NULL);
+		return (NULL);
 	ret = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!ret)
 		return (NULL);
