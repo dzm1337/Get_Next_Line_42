@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:25:29 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/16 19:31:05 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:02:28 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ static size_t	ft_strlcpy(const char *s, char *d, size_t size)
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
-	
+
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -53,7 +55,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	char	*ret;
 
 	total = ft_strlen(s1) + ft_strlen(s2);
-	ret = malloc(sizeof(char) * (total));
+	ret = malloc(sizeof(char) * (total + 1));
 	if (!ret)
 		return (NULL);
 	ft_strlcpy(s1, ret, total);
@@ -82,8 +84,10 @@ char	*ft_strchr(const char *s, int c)
 char	*ft_strdup(const char *s)
 {
 	int	i;
-	char	*ret;	
-
+	char	*ret;
+	
+	if (!s)
+		return (NULL);
 	ret = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (!ret)
 		return (NULL);

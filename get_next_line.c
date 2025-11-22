@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/16 19:54:22 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/22 14:04:05 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_delimit_line(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
-		i = i + 1;
+		i++;
 	tmp_stash = malloc(sizeof(char) * (ft_strlen(stash) - i + 1));
 	if (!tmp_stash)
 		return (NULL);
@@ -65,42 +65,41 @@ char	*ft_delimit_line(char *stash)
 	stash = tmp_stash;
 	return (stash);
 }
-/*
+
 char	*ft_get_line(char *stash)
 {
-}	
+	int	i;
+	int	j;
+	char	*line;
+	
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	if (stash[i] == '\n')
+		i++;
+	line = malloc(i + 1);
+	if (!line)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		line[j] = stash[j];
+		j++;
+	}
+	line[j] = '\0';
+	return (line);
+	
+}
+
 char	*ft_get_next_line(int fd)
 {
+	static char *stash;
+	char	*line;
+
+	stash = ft_read_line(stash, fd);
+	if (!stash || stash[0] == '\0')
+		return (NULL);
+	line = ft_get_line(stash);
+	stash = ft_delimit_line(stash);
+	return (line);
 }
-*/
-
-#include "get_next_line.h"
-#include <stdio.h>
-#include <fcntl.h> 
-#include <stdlib.h> 
-
-int main(void)
-{
-    int fd;
-    char *line;
-
-    fd = open("teste.txt", O);
-    if (fd == -1)
-    {
-        perror("Erro ao abrir arquivo");
-        return 1;
-    }
-    line = ft_read_line(NULL, fd);
-    if (line)
-    {
-        printf("Linha lida: %s\n", line);
-        free(line);
-    }
-    else
-    {
-        printf("Erro ao ler a linha ou arquivo vazio.\n");
-    }
-    close(fd);
-    return 0;
-}
-
