@@ -20,7 +20,11 @@ char	*ft_read_line(char *stash, int fd)
 	int	nbytes;
 
 	if (!stash)
+	{
 		stash = ft_strdup("");
+		if (!stash)
+			return (NULL);
+	}
 	nbytes = 1;
 	while (!ft_strchr(stash, '\n') && nbytes > 0)
 	{
@@ -28,11 +32,11 @@ char	*ft_read_line(char *stash, int fd)
 		if (nbytes == -1)
 			return (free(stash), NULL);
 		if (nbytes == 0)
-			break;
+			break ;
 		buf[nbytes] = '\0';
 		tmp = ft_strjoin(stash, buf);
 		if (!tmp)
-			return (NULL);
+			return (free(stash), NULL);
 		free(stash);
 		stash = tmp;
 	}
@@ -43,7 +47,7 @@ char	*ft_get_line(char *stash)
 {
 	int	i;
 	char	*line;
-	char 	c;
+	char	c;
 
 	if (!stash || !stash[0])
 		return (NULL);
@@ -55,6 +59,8 @@ char	*ft_get_line(char *stash)
 	c = stash[i];
 	stash[i] = '\0';
 	line = ft_strdup(stash);
+	if (!line)
+		return (NULL);
 	stash[i] = c;
 	return (line);
 }
@@ -68,14 +74,13 @@ char	*ft_delimit_line(char *stash)
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-	{	
-		free(stash);
-		return (NULL);
-	}
-	tmp_stash = ft_strdup(stash + i + 1);
-	free(stash);
+		return(free(stash), NULL);
+	tmp_stash = ft_strdup((stash + i) + 1);
+	if (!tmp_stash)
+		return (free(stash), NULL);
 	if (!tmp_stash)
 		return (NULL);
+	free(stash);
 	return (tmp_stash);
 }
 
@@ -90,6 +95,12 @@ char	*get_next_line(int fd)
 	if (!stash)
 		return (NULL);
 	line = ft_get_line(stash);
+	if (!line)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
 	stash = ft_delimit_line(stash);
 	return (line);
 }
