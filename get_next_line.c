@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/29 17:23:27 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:53:09 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ char	*ft_delimit_line(char *stash)
 	tmp_stash = ft_strdup((stash + i) + 1);
 	if (!tmp_stash)
 		return (free(stash), NULL);
-	if (!tmp_stash)
-		return (NULL);
 	free(stash);
 	return (tmp_stash);
 }
@@ -87,7 +85,11 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
+	{
+		free(stash);
+		stash = (NULL);
 		return (NULL);
+	}
 	stash = ft_read_line(stash, fd);
 	if (!stash)
 		return (NULL);
