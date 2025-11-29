@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 20:25:29 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/22 17:59:39 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:02:45 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*ret;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -56,7 +55,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
-		
+
 	i = 0;
 	if (!s)
 		return (NULL);
@@ -73,9 +72,9 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strdup(const char *s)
 {
-	int	i;
+	int		i;
 	char	*ret;
-	
+
 	if (!s)
 		return (NULL);
 	ret = malloc(sizeof(char) * (ft_strlen(s) + 1));

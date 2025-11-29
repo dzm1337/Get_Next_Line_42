@@ -6,18 +6,16 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/22 19:49:21 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:10:21 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
-char	*ft_read_line(char *stash, int fd) 
+char	*ft_read_line(char *stash, int fd, char buf)
 {
-	char	buf[BUFFER_SIZE + 1];
 	char	*tmp;
-	int	nbytes;
+	int		nbytes;
 
 	if (!stash)
 	{
@@ -28,7 +26,7 @@ char	*ft_read_line(char *stash, int fd)
 	nbytes = 1;
 	while (!ft_strchr(stash, '\n') && nbytes > 0)
 	{
-		nbytes = read(fd, buf, BUFFER_SIZE);	
+		nbytes = read(fd, buf, BUFFER_SIZE);
 		if (nbytes == -1)
 			return (free(stash), NULL);
 		if (nbytes == 0)
@@ -45,7 +43,7 @@ char	*ft_read_line(char *stash, int fd)
 
 char	*ft_get_line(char *stash)
 {
-	int	i;
+	int		i;
 	char	*line;
 	char	c;
 
@@ -67,14 +65,14 @@ char	*ft_get_line(char *stash)
 
 char	*ft_delimit_line(char *stash)
 {
-	int	i;
+	int		i;
 	char	*tmp_stash;
-	
+
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	if (!stash[i])
-		return(free(stash), NULL);
+		return (free(stash), NULL);
 	tmp_stash = ft_strdup((stash + i) + 1);
 	if (!tmp_stash)
 		return (free(stash), NULL);
@@ -86,12 +84,13 @@ char	*ft_delimit_line(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char *stash;
-	char	*line;
+	static char	*stash;
+	char		*line;
+	char		buf[BUFFER_SIZE + 1];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);	
-	stash = ft_read_line(stash, fd);
+		return (NULL);
+	stash = ft_read_line(stash, fd, buf);
 	if (!stash)
 		return (NULL);
 	line = ft_get_line(stash);
