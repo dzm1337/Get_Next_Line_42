@@ -6,14 +6,15 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/29 17:10:21 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:23:27 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_read_line(char *stash, int fd, char buf)
+char	*ft_read_line(char *stash, int fd)
 {
+	char	buf[BUFFER_SIZE + 1];
 	char	*tmp;
 	int		nbytes;
 
@@ -29,8 +30,6 @@ char	*ft_read_line(char *stash, int fd, char buf)
 		nbytes = read(fd, buf, BUFFER_SIZE);
 		if (nbytes == -1)
 			return (free(stash), NULL);
-		if (nbytes == 0)
-			break ;
 		buf[nbytes] = '\0';
 		tmp = ft_strjoin(stash, buf);
 		if (!tmp)
@@ -86,11 +85,10 @@ char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*line;
-	char		buf[BUFFER_SIZE + 1];
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	stash = ft_read_line(stash, fd, buf);
+	stash = ft_read_line(stash, fd);
 	if (!stash)
 		return (NULL);
 	line = ft_get_line(stash);
