@@ -6,7 +6,7 @@
 /*   By: dde-paul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/15 21:54:25 by dde-paul          #+#    #+#             */
-/*   Updated: 2025/11/29 17:53:09 by dde-paul         ###   ########.fr       */
+/*   Updated: 2025/11/29 18:23:00 by dde-paul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,9 @@ char	*ft_read_line(char *stash, int fd)
 	int		nbytes;
 
 	if (!stash)
-	{
 		stash = ft_strdup("");
-		if (!stash)
-			return (NULL);
-	}
+	if (!stash)
+		return (NULL);
 	nbytes = 1;
 	while (!ft_strchr(stash, '\n') && nbytes > 0)
 	{
